@@ -1,0 +1,3 @@
+[submodule "maciOS/Core/JIT/ellekit/fishhook"]
+	path = maciOS/Core/JIT/ellekit/fishhook
+	url = https://github.com/khanhduytran0/fishhook.git

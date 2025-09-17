@@ -1,0 +1,6 @@
+framework module DisplayServices {
+  umbrella header "DisplayServices.h"
+  export *
+
+  module * { export * }
+}
