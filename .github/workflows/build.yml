@@ -40,16 +40,8 @@ jobs:
             -archivePath $PWD/build/maciOS.xcarchive \
             clean archive
 
-      - name: Export IPA (unsigned)
-        run: |
-          CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" DEVELOPMENT_TEAM="" xcodebuild \
-            -exportArchive \
-            -archivePath $PWD/build/maciOS.xcarchive \
-            -exportPath $PWD/build/ipa \
-            -exportOptionsPlist exportOptions.plist
-          
-      - name: Upload IPA artifact
+      - name: Upload xcarchive
         uses: actions/upload-artifact@v4
         with:
-          name: maciOS-ipa
-          path: build/ipa
+          name: maciOS-xcarchive
+          path: build/maciOS.xcarchive
