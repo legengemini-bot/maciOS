@@ -64,6 +64,14 @@ struct maciOSApp: App {
                     
                     NSWindowController.description()
                 }
+                .onOpenURL { url in
+                    let patcher = MachOPatcher(url)
+                    machO.append(patcher)
+                    install_exit_hook()
+                    if let exeURL = patcher.patchExecutable() {
+                        Execute.run(dylibPath: exeURL.path)
+                    }
+                }
         }
     }
 }
