@@ -25,12 +25,10 @@ jobs:
 
       - name: Build AppKit-iOS
         run: |
-          xcodebuild \
+          CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" DEVELOPMENT_TEAM="" xcodebuild \
             -project AppKit/AppKit-iOS.xcodeproj \
             -scheme AppKit-iOS \
-            -sdk iphoneos \
-            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" DEVELOPMENT_TEAM=""
-            clean build
+            -sdk iphoneos clean build
 
       - name: Archive app
         run: |
