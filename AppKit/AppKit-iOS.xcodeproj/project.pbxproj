@@ -170,7 +170,7 @@
 				CODE_SIGN_STYLE = Manual;
                 CODE_SIGN_IDENTITY = "";
                 CODE_SIGNING_REQUIRED = NO;
-                CODE_SIGNING_ALLOWED = NO
+                CODE_SIGNING_ALLOWED = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -201,10 +201,13 @@
 		4E95B3352E5C89FC003484A0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
+			    CODE_SIGN_STYLE = Manual;
+                CODE_SIGN_IDENTITY = "";
+                CODE_SIGNING_REQUIRED = NO;
+                CODE_SIGNING_ALLOWED = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = 95J8WZ4TN8;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
