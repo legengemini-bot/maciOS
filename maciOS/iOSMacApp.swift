@@ -14,7 +14,7 @@ import UIKit
 struct maciOSApp: App {
     @StateObject private var mouse = MouseTracker.shared
     @State var cursor = UIImage()
-    
+    @State private var machO: [MachOPatcher] = []
     var body: some Scene {
         WindowGroup {
             ContentView()
