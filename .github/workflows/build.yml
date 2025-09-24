@@ -29,6 +29,7 @@ jobs:
             -project AppKit/AppKit-iOS.xcodeproj \
             -scheme AppKit-iOS \
             -sdk iphoneos \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" DEVELOPMENT_TEAM=""
             clean build
 
       - name: Archive app
