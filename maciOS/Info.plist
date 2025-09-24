@@ -4,5 +4,18 @@
 <dict>
 	<key>UIFileSharingEnabled</key>
 	<true/>
+    <key>CFBundleDocumentTypes</key>
+    <array>
+        <dict>
+            <key>CFBundleTypeName</key>
+            <string>Any File</string>
+            <key>LSHandlerRank</key>
+            <string>Default</string>
+            <key>LSItemContentTypes</key>
+            <array>
+                <string>public.item</string>
+            </array>
+        </dict>
+    </array>
 </dict>
 </plist>
