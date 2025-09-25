@@ -69,19 +69,77 @@ struct ContentView: View {
 
 struct DoomControllerView: View {
     var body: some View {
-        VStack(spacing: 20) {
-            HoldableButton(label: "W", keyCode: 13) // W = 13
-            HStack(spacing: 20) {
-                HoldableButton(label: "A", keyCode: 0)  // A = 0
-                HoldableButton(label: "S", keyCode: 1)  // S = 1
-                HoldableButton(label: "D", keyCode: 2)  // D = 2
+        VStack(spacing: 12) {
+            // Огромный символ 
+            Text("\u{F8FF}")
+                .font(.system(size: 100))
+                .padding(.bottom, 20)
+
+            // Собираем системную информацию прямо здесь
+            let systemInfo: [String: String] = {
+                var info: [String: String] = [:]
+
+                // Darwin kernel version (uname -r)
+                var uts = utsname()
+                uname(&uts)
+                let release = withUnsafePointer(to: &uts.release) {
+                    $0.withMemoryRebound(to: CChar.self, capacity: Int(_SYS_NAMELEN)) {
+                        String(cString: $0)
+                    }
+                }
+                info["Darwin Kernel"] = release
+
+                // CPU cores
+                var ncpu: Int32 = 0
+                var sizeNcpu = MemoryLayout<Int32>.size
+                sysctlbyname("hw.ncpu", &ncpu, &sizeNcpu, nil, 0)
+                info["Cores"] = "\(ncpu)"
+
+                // RAM
+                var memsize: Int64 = 0
+                var sizeMem = MemoryLayout<Int64>.size
+                sysctlbyname("hw.memsize", &memsize, &sizeMem, nil, 0)
+                info["Memory"] = ByteCountFormatter.string(fromByteCount: memsize, countStyle: .memory)
+
+                // Disk
+                if let attrs = try? FileManager.default.attributesOfFileSystem(forPath: "/"),
+                   let total = attrs[.systemSize] as? NSNumber,
+                   let free = attrs[.systemFreeSize] as? NSNumber {
+                    info["Disk Total"] = ByteCountFormatter.string(fromByteCount: total.int64Value, countStyle: .file)
+                    info["Disk Free"] = ByteCountFormatter.string(fromByteCount: free.int64Value, countStyle: .file)
+                }
+
+                // Uptime (через kern.boottime)
+                var boottime = timeval()
+                var sizeBT = MemoryLayout<timeval>.stride
+                var mib: [Int32] = [CTL_KERN, KERN_BOOTTIME]
+                sysctl(&mib, u_int(mib.count), &boottime, &sizeBT, nil, 0)
+
+                let bootDate = Date(timeIntervalSince1970: TimeInterval(boottime.tv_sec))
+                let uptime = Date().timeIntervalSince(bootDate)
+                let days = Int(uptime) / 86400
+                let hours = (Int(uptime) % 86400) / 3600
+                let minutes = (Int(uptime) % 3600) / 60
+                info["Uptime"] = "\(days)d \(hours)h \(minutes)m"
+
+                return info
+            }()
+
+            // Выводим как текст
+            ForEach(systemInfo.keys.sorted(), id: \.self) { key in
+                HStack {
+                    Text("\(key):")
+                        .bold()
+                    Spacer()
+                    Text(systemInfo[key] ?? "")
+                        .multilineTextAlignment(.trailing)
+                }
+                .padding(.horizontal, 20)
             }
-            HStack(spacing: 20) {
-                HoldableButton(label: "Enter", keyCode: 36) // Enter = 36
-                HoldableButton(label: "Esc", keyCode: 53)   // Escape = 53
-            }
+
+            Spacer()
         }
-        .font(.title)
+        .font(.title3)
         .padding()
     }
 }
